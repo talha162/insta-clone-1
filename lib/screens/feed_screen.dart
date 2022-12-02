@@ -70,64 +70,8 @@ class _FeedScreenState extends State<FeedScreen> {
                               fontWeight: FontWeight.bold,
                             ),
                           ),
-                          data['uid'].toString() == user!.uid
-                              ? IconButton(
-                                  onPressed: () {
-                                    showDialog(
-                                      useRootNavigator: false,
-                                      context: context,
-                                      builder: (context) {
-                                        return Dialog(
-                                          child: ListView(
-                                              padding:
-                                                  const EdgeInsets.symmetric(
-                                                      vertical: 16),
-                                              shrinkWrap: true,
-                                              children: [
-                                                'Delete',
-                                              ]
-                                                  .map((e) => InkWell(
-                                                      child: Container(
-                                                        padding:
-                                                            const EdgeInsets
-                                                                    .symmetric(
-                                                                vertical: 12,
-                                                                horizontal: 16),
-                                                        child: Text(e),
-                                                      ),
-                                                      onTap: () async {
-                                                        String result =
-                                                            "success";
-                                                        try {
-                                                          await FirebaseFirestore
-                                                              .instance
-                                                              .collection(
-                                                                  'posts')
-                                                              .doc(data[
-                                                                      'postId']
-                                                                  .toString())
-                                                              .delete();
-                                                        } catch (err) {
-                                                          result =
-                                                              err.toString();
-                                                        }
-                                                        showSnackBar(
-                                                            result, context);
-                                                        Navigator.of(context,
-                                                            rootNavigator: true)
-                                                        .pop();
-                                                      }))
-                                                  .toList()),
-                                        );
-                                      },
-                                    );
-                                  },
-                                  icon: const Icon(Icons.more_outlined),
-                                )
-                              : Container(),
                         ],
                       ),
-
                       // IMAGE SECTION OF THE POST
                       GestureDetector(
                         onDoubleTap: () {

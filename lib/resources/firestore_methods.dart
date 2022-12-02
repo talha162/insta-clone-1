@@ -32,25 +32,28 @@ class FireStoreMethods {
 
   Future<String> likePost(String postId, String uid, List likes) async {
     String res = "Some error occurred";
-    print('liked');
+    print('liked .$postId.$uid');
     try {
       if (likes.contains(uid)) {
         // if the likes list contains the user uid, we need to remove it
-        _firebaseFirestore.collection('posts').doc(postId).update({
+        await _firebaseFirestore.collection('posts').doc(postId).update({
           'likes': FieldValue.arrayRemove([uid])
+        }).whenComplete(() {
+          print('data del');
         });
-    print('liked 2');
-
+        print('liked 2');
       } else {
         // else we need to add uid to the likes array
-        _firebaseFirestore.collection('posts').doc(postId).update({
+       await _firebaseFirestore.collection('posts').doc(postId).update({
           'likes': FieldValue.arrayUnion([uid])
+        }).whenComplete(() {
+          print('data inst');
         });
-    print('liked 3');
+        print('liked 3');
       }
       res = 'success';
     } catch (err) {
-    print('liked 4');
+      print('liked 4');
 
       res = err.toString();
     }
